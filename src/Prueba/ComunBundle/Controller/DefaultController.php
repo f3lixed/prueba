@@ -62,7 +62,7 @@ class DefaultController extends Controller
         try{
             $factura = new Factura();
             $factura->setDescripcion($data->descripcion);
-            $factura->setFechaRegistro(new \Datetime (date('Y-m-d H:i:s')));
+            $factura->setFechaRegistro(new \Datetime (date('Y-m-d')));
             $total = ($data->subtotal + $data->subtotaliva);
             $factura->setTotal($total);
             $factura->setValorBase($data->subtotal);
@@ -83,7 +83,7 @@ class DefaultController extends Controller
                     $facturaProducto->setFactura($factura);
                     $facturaProducto->setValorTotal($data->productos[$key]->subtotal);
                     $facturaProducto->setValorIva($data->productos[$key]->subtotaliva);
-                    $facturaProducto->setFechaRegistro(new \Datetime (date('Y-m-d H:i:s')));
+                    $facturaProducto->setFechaRegistro(new \Datetime (date('Y-m-d')));
                     $em->persist($facturaProducto);
                 }
                 $i++;
@@ -110,8 +110,8 @@ class DefaultController extends Controller
         $data = json_decode(file_get_contents('php://input'));
         $serializer = SerializerBuilder::create()->build();
 
-        if (!empty($data)) {
-            $facturaId = $data->categoria_id;
+        if (!empty($data->factura_id)) {
+            $facturaId = $data->factura_id;
         }else{
             $facturaId = null;
         }
@@ -126,22 +126,54 @@ class DefaultController extends Controller
             }else{
                 $hoy = date('Y-m-d');
                 $objeto = $em->getRepository('PruebaComunBundle:Factura')->findBy(array(
-                                                'fechaRegistro' => $hoy
-                                            ));
+                    "fechaRegistro" => new \DateTime(date('Y-m-d'))
+                ));
+                for ($i=0; $i < sizeof($objeto); $i++) { 
+                    $datos[$i] = array('factura_id' => $objeto[$i]->getFacturaId(),
+                        'descripcion' => $objeto[$i]->getDescripcion(), 'total' => $objeto[$i]->getTotal(), 'valor_base' => $objeto[$i]->getValorBase(),
+                        'valor_iva' => $objeto[$i]->getValorIva());
+                }
             }
 
-            for ($i=0; $i < sizeof($objeto); $i++) { 
-                $datos[$i] = array('factura_id' => $objeto[$i]->getFacturaId(),
-                    'descripcion' => $objeto[$i]->getDescripcion(), 'total' => $objeto[$i]->getTotal(), 'valor_base' => $objeto[$i]->getValorBase(),
-                    'valor_iva' => $objeto[$i]->getValorIva()->getValor());
-            }
-            $cantD = count($datos);
+            $cantD = $i;
         }catch(\Exception $e){
+            $cantD = 0;
             $objSQLException = new \Prueba\ComunBundle\Resources\classes\SQLException();
             $datos = array('type' => 'danger', 'content' => $objSQLException->getSQLState($e->getMessage(),__LINE__));
         }
         
         $serializer = SerializerBuilder::create()->build();
-        return new Response("[{\"cantidad\":$limit,\"total\":$cantD,\"data\":".$serializer->serialize($datos, 'json')."}]");
+        return new Response("[{\"cantidad\":10,\"total\":$cantD,\"data\":".$serializer->serialize($datos, 'json')."}]");
+    }
+
+    public function consultarFacturaProductosAction($facturaId)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $data = json_decode(file_get_contents('php://input'));
+        $serializer = SerializerBuilder::create()->build();
+
+        $request = $this->getRequest();
+            $numero = $request->query->get('factura_id');
+
+        print_r($facturaId,true);
+        
+        try{
+            $objeto = 0;
+                $objeto = $em->getRepository('PruebaComunBundle:FacturaProductos')->findBy(
+                                            array(
+                                                'facturaId' => $data->factura_id
+                                            )
+                                        );
+
+            $cantD = sizeof($objeto);
+        }catch(\Exception $e){
+            $cantD = 0;
+            $objSQLException = new \Prueba\ComunBundle\Resources\classes\SQLException();
+            $datos = array('type' => 'danger', 'content' => $objSQLException->getSQLState($e->getMessage(),__LINE__));
+        }
+        
+        $serializer = SerializerBuilder::create()->build();
+        return new Response("[{\"cantidad\":10,\"total\":$cantD,\"data\":".$serializer->serialize($objeto, 'json')."}]");
     }
 }

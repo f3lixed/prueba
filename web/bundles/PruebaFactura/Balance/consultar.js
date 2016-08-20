@@ -15,11 +15,12 @@ prueba
             },
             resolve: {
                 $b: ["$q",
-                "$stateParams",
+                "$location",
                 "Factura",
-                function ($q, $stateParams, Factura) {
+                function ($q, $location, Factura) {
+                    var location = $location.search();
                     return $q.all({
-                        Facturas: Factura.query().$promise
+                        facturas: Factura.query(location).$promise
                     });
                 }]
             }
@@ -27,8 +28,25 @@ prueba
     }
 ]).controller("ConsultarBalanceCtrl", [
 "$scope",
+"$location",
 "Factura",
 "$b",
-function ($scope, Factura, $b) {
+function ($scope, $location, Factura, $b) {
     angular.extend($scope, $b);
+    console.log($scope.facturas);
+    $scope.balance = {total:0};
+    $scope.balance.total = calcularTotal();
+
+    $scope.dataSearch = angular.extend({
+        numeroPagina: 1
+    }, $location.search());
+
+    function calcularTotal() {
+        var total = 0, i=0, factura = $scope.facturas[0].data;
+
+        for (var i in factura) {
+            total += factura[i].total;
+        }
+        return total;
+    }
 }]);

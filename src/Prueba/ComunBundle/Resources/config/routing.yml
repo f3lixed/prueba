@@ -20,3 +20,9 @@ facturas_consultar:
     requirements:
         _method: GET
 
+facturas_producto_consultar:
+    pattern: /consultarfacturaproductos/{facturaId}
+    defaults: { _controller: PruebaComunBundle:Default:consultarFacturaproductos, _format: json, facturaId: 0 }
+    requirements:
+        _method: GET
+

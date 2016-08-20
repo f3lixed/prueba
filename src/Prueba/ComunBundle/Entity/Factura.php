@@ -30,9 +30,9 @@ class Factura
     private $descripcion;
 
     /**
-     * @var \DateTime
+     * @var \Date
      *
-     * @ORM\Column(name="fecha_registro", type="datetime", nullable=true, options={"comment":"Fecha en que se registra la factura"})
+     * @ORM\Column(name="fecha_registro", type="date", nullable=true, options={"comment":"Fecha en que se registra la factura"})
      */
     private $fechaRegistro;
 
@@ -94,7 +94,7 @@ class Factura
     /**
      * Set fechaRegistro
      *
-     * @param \DateTime $fechaRegistro
+     * @param \Date $fechaRegistro
      * @return Factura
      */
     public function setFechaRegistro($fechaRegistro)
@@ -107,7 +107,7 @@ class Factura
     /**
      * Get fechaRegistro
      *
-     * @return \DateTime 
+     * @return \Date 
      */
     public function getFechaRegistro()
     {

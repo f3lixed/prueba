@@ -91,6 +91,7 @@ function ($scope, CrearFactura, FacturaProducto, $b) {
     function callbackSave(data) {
         if (data.content) {
             $scope.validator.alert = data;
+            dsJqueryUtils.goTop();
             if (data.producto_id) {
                 $scope.productos = $b.productos;
             }

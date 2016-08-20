@@ -1,0 +1,35 @@
+<div class="dataTables_wrapper form-inline dt-bootstrap">
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-bordered table-striped dataTable" role="grid">
+                <thead>
+                    <tr role="row">
+                        <th>Producto</th>
+                        <th>Valor Total</th>
+                        <th>Valor Iva</th>
+                        <th>Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-show="productos[0].total === 0">
+                        <td colspan="8">No se han hallado Aun productos</td>
+                    </tr>
+                    <tr role="row" class="odd" dir-paginate="producto in productos[0].data | itemsPerPage: productos[0].cantidad" total-items="productos[0].total" current-page="dataSearch.numeroPagina">
+                        <td>{{producto.nombre}}</td>
+                        <td>{{producto.valor_total}}</td>
+                        <td>{{producto.valor_iva}}</td>
+                        <td>{{producto.cantidad}}</td>
+                        
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <td colspan="8" class="currency">
+                        <div>
+                            <dir-pagination-controls on-page-change="pageChanged(dataSearch.numeroPagina)" />
+                        </div>
+                    </td>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
