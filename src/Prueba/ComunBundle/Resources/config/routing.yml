@@ -1,0 +1,22 @@
+prueba_homepage:
+   path:     /
+   defaults: { _controller: PruebaComunBundle:Default:index }
+
+facturas_crear:
+    pattern: /crearfactura
+    defaults: { _controller: PruebaComunBundle:Default:crearFactura, _format: json }
+    requirements:
+        _method: GET
+
+facturas_producto_almacenar:
+    pattern: /generarfactura
+    defaults: { _controller: PruebaComunBundle:Default:generarFactura, _format: json }
+    requirements:
+        _method: POST
+
+facturas_consultar:
+    pattern: /consultarfactura
+    defaults: { _controller: PruebaComunBundle:Default:consultarFactura, _format: json }
+    requirements:
+        _method: GET
+

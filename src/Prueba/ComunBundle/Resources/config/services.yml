@@ -1,0 +1,8 @@
+parameters:
+#    Prueba_comun.example.class: Prueba\ComunBundle\Example
+
+services:
+#    Prueba_comun.example:
+#        class: %Prueba_comun.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+    

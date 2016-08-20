@@ -1,0 +1,39 @@
+<div class="dataTables_wrapper form-inline dt-bootstrap">
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-bordered table-striped dataTable" role="grid">
+                <thead>
+                    <tr role="row">
+                        <th>Factura</th>
+                        <th>Descripcion</th>
+                        <th>Valor Base</th>
+                        <th>Valor Iva</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-show="facturas[0].total === 0">
+                        <td colspan="8">No se han hallado Aun Facturas</td>
+                    </tr>
+                    <tr role="row" class="odd" dir-paginate="factura in facturas[0].data | itemsPerPage: facturas[0].cantidad" total-items="facturas[0].total" current-page="dataSearch.numeroPagina">
+                        <td>{{factura.factura_id}}</td>
+                        <td>{{factura.descripcion}}</td>
+                        <td>{{factura.valor_base}}</td>
+                        <td>{{factura.valor_iva}}</td>
+                        <td>{{factura.total}}</td>
+                        <td class="center">
+                            <a ui-sref ="detalle-factura({factura_id: factura.factura_id})" class="fa fa-pencil-square-o" title="Ver Detatlle"></a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <td colspan="8" class="currency">
+                        <div>
+                            <dir-pagination-controls on-page-change="pageChanged(dataSearch.numeroPagina)" />
+                        </div>
+                    </td>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>

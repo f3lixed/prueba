@@ -1,0 +1,21 @@
+{% for modulo in modulos %}
+    {% if modulo.modulos|length > 0 %}
+    <li class="treeview" id="menu_{{modulo.modulo_id}}">
+        <a href="javascipt:void(0)">
+            <i class="fa fa-{{modulo.icono != null? modulo.icono: 'plus-square-o'}}"></i>
+            <span>{{modulo.nombre}}</span>
+            <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+            {% include "DusoftComunBundle:Default:menu-links.html.twig" with {'modulos':modulo.modulos} only %}
+        </ul>
+    </li>
+    {% else %}
+    <li ng-class="{active:isActive({{modulo.padres|json_encode()}}, {{modulo.formularios|json_encode()}})}">
+        <a href ui-sref="{{(modulo.formularioPrincipal is defined)? modulo.formularioPrincipal: 'index'}}">
+            <i class="fa fa-{{modulo.icono != null? modulo.icono: 'angle-double-right'}}"></i>
+            <span>{{modulo.nombre}}</span>
+        </a>
+    </li>
+    {% endif %}
+{% endfor %}

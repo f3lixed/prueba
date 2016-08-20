@@ -1,0 +1,3 @@
+prueba_comun:
+    resource: "@PruebaComunBundle/Resources/config/routing.yml"
+    prefix:   /

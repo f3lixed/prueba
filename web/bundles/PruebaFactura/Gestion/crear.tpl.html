@@ -1,0 +1,41 @@
+<ds-alert title="{{validator.alert.title}}" content="{{validator.alert.content}}" type="{{validator.alert.type}}" close="hideAlert()"></ds-alert>
+<form ng-submit="saveFactura()">
+    <div class="row">
+        <div class="form-group col-sm-4">
+            <label for="escenarioSearch">Descripcion <i ng-show="loadingDesc" class="fa fa-spinner fa-spin"></i></label>
+            <div class="input-group" style="width:100%">
+                <input type="text" id="nombre" class="form-control" ng-model="factura.descripcion" required/>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-condensed">
+        <tbody>
+            <tr ng-repeat="producto in productos">
+                <td><label for="pres_{{producto.producto_id}}">{{producto.nombre}}</label></td>
+                <td><label for="pres_{{producto.valor}}">IVA: {{producto.valor}}%</label></td>
+                <td><label for="pres_{{producto.precio}}">PRECIO: ${{producto.precio}}</label></td>
+                <td><label for="presubtotal_{{producto.producto_id}}">SUBTOTAL: ${{producto.subtotal}}</label></td>
+                <td><label for="presubtotaliva_{{producto.producto_id}}">SUBTOTALIVA: ${{producto.subtotaliva}}</label></td>
+                <td style="width:170px"><div class="input-group">
+                    <input type="number" id="pres_{{producto.producto_id}}" class="form-control" ng-model="producto.cantidad" step="1.0" min="0" ng-focus="setValor(producto)" ng-blur="setTotal(producto)" required/>
+                    <div class="input-group-addon">Cantidad</div>
+                </div></td>
+            </tr>
+            <tr>
+                <td>Total</td>
+                <td></td>
+                <td></td>
+                <td>Subtotal: ${{validator.subtotal}}</td>
+                <td>SubtotalIva: ${{validator.subtotaliva}}</td>
+                <td><div class="input-group">
+                    <input type="text" class="form-control" ng-model="validator.total" disabled />
+                    <div class="input-group-addon">Cantidad</div>
+                </div></td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="row col-sm-2">
+        <input type="submit" value="Guardar" class="btn btn-primary" />
+    </div>
+</form>

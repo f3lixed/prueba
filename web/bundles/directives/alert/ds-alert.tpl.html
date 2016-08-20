@@ -1,0 +1,7 @@
+<div ng-show="content">
+    <div class="alert alert-{{type}} alert-dismissable">
+        <i class="fa fa-{{type === 'danger'? 'ban': type === 'success'? 'check': type}}"></i>
+        <button type="button" class="close" aria-hidden="true" ng-click="close()">×</button>
+        <b>{{title}}</b> <span ng-bind-html="content"></span>
+    </div>
+</div>
